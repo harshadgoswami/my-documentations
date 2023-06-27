@@ -1,6 +1,7 @@
 Certainly! Here's an HTML responsive email template for the KYC verification request notification on approval to the customer:
 
     ```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
