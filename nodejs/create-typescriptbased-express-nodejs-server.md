@@ -1,28 +1,30 @@
-Creating a TypeScript - based Node.js REST API server with Express involves several steps.Here’s a comprehensive guide:
+Creating a TypeScript-based Node.js REST API server with Express involves several steps. Here’s a comprehensive guide:
 
 ### Step 1: Set Up the Project
 
-1. ** Initialize a new Node.js project:**
-    ```bash
-    mkdir express-typescript-api
-    cd express-typescript-api
-    npm init -y
-    ```
+1. **Initialize a new Node.js project:**
 
-2. ** Install necessary packages:**
-    ```bash
-    npm install express
-    npm install --save-dev typescript ts-node @types/node @types/express
-    ```
+   ```bash
+   mkdir express-typescript-api
+   cd express-typescript-api
+   npm init -y
+   ```
 
-3. ** Initialize TypeScript:**
-    ```bash
-    npx tsc --init
-    ```
+2. **Install necessary packages:**
+
+   ```bash
+   npm install express
+   npm install --save-dev typescript ts-node @types/node @types/express
+   ```
+
+3. **Initialize TypeScript:**
+   ```bash
+   npx tsc --init
+   ```
 
 ### Step 2: Configure TypeScript
 
-Edit the `tsconfig.json` file to set up the basic TypeScript configuration.Here’s a simple setup:
+Edit the `tsconfig.json` file to set up the basic TypeScript configuration. Here’s a simple setup:
 
 ```json
 {
@@ -42,19 +44,20 @@ Edit the `tsconfig.json` file to set up the basic TypeScript configuration.Here�
 
 ### Step 3: Create the Server
 
-1. ** Create the project structure:**
-    ```bash
-    mkdir src
-    touch src/index.ts
-    mkdir src/routes
-    touch src/routes/index.ts
-    ```
+1. **Create the project structure:**
 
-2. ** Setup the Express server in `src/index.ts`:**
+   ```bash
+   mkdir src
+   touch src/index.ts
+   mkdir src/routes
+   touch src/routes/index.ts
+   ```
 
-    ```typescript
-import express, { Request, Response, NextFunction } from 'express';
-import routes from './routes';
+2. **Setup the Express server in `src/index.ts`:**
+
+```typescript
+import express, { Request, Response, NextFunction } from "express";
+import routes from "./routes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -63,7 +66,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // API Routes
-app.use('/api', routes);
+app.use("/api", routes);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -72,24 +75,24 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${ PORT } `);
+  console.log(`Server is running on port ${PORT}`);
 });
 ```
 
-3. ** Define routes in `src/routes/index.ts`:**
+3. **Define routes in `src/routes/index.ts`:**
 
-    ```typescript
-import { Router, Request, Response } from 'express';
+```typescript
+import { Router, Request, Response } from "express";
 
 const router = Router();
 
 // Example route
-router.get('/', (req: Request, res: Response) => {
-  res.send('Hello, world!');
+router.get("/", (req: Request, res: Response) => {
+  res.send("Hello, world!");
 });
 
-router.get('/data', (req: Request, res: Response) => {
-  res.json({ message: 'Hello, from the data endpoint!' });
+router.get("/data", (req: Request, res: Response) => {
+  res.json({ message: "Hello, from the data endpoint!" });
 });
 
 export default router;
@@ -99,7 +102,7 @@ export default router;
 
 Update the `package.json` to add scripts for running the TypeScript code:
 
-    ```json
+```json
 {
   "name": "express-typescript-api",
   "version": "1.0.0",
@@ -123,7 +126,7 @@ Update the `package.json` to add scripts for running the TypeScript code:
 
 ### Step 5: Run the Server
 
-To run the server in development mode(using`ts-node`):
+To run the server in development mode (using `ts-node`):
 
 ```bash
 npm run dev
@@ -155,4 +158,4 @@ express-typescript-api/
 
 ### Conclusion
 
-You now have a basic TypeScript - based Node.js REST API server using Express.You can expand upon this by adding more routes, controllers, middleware, and error handling as needed.This setup provides a solid foundation for building scalable and maintainable REST APIs with TypeScript and Express.
+You now have a basic TypeScript-based Node.js REST API server using Express. You can expand upon this by adding more routes, controllers, middleware, and error handling as needed. This setup provides a solid foundation for building scalable and maintainable REST APIs with TypeScript and Express.
