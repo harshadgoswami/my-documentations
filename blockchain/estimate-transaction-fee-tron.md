@@ -1,6 +1,6 @@
-For estimating the transaction fee for a non-contract based TRX transfer on the TRON network, you typically need to consider the bandwidth and energy consumption for the transaction. However, for simple TRX transfers, the fee is generally determined by the bandwidth usage, and if you have enough bandwidth points, the transaction might even be free.
+To handle the situation where `tronWeb.utils.crypto.toHex` is undefined, we need to ensure that we use the proper method to convert the transaction object to a hex string. In this case, we'll utilize `tronWeb.utils.bytes.byteArray2hexStr` to convert the transaction to a hex string.
 
-Here's a step-by-step guide to estimate the bandwidth usage and fee for a TRX transfer using `tronweb`:
+Here's the corrected and complete TypeScript example:
 
 ### Installation
 
@@ -38,9 +38,14 @@ async function estimateTrxTransferFee(
       fromAddress
     );
 
-    // Calculate the bandwidth needed for the transaction
-    const transactionSize = tronWeb.utils.crypto.toHex(transaction).length / 2; // Transaction size in bytes
-    const bandwidthCost = transactionSize * 1; // 1 bandwidth point per byte
+    // Calculate the transaction size in bytes and convert to hex string
+    const transactionHex = tronWeb.utils.bytes.byteArray2hexStr(
+      transaction.raw_data_hex
+    );
+    const transactionSize = transactionHex.length / 2; // Transaction size in bytes
+
+    // Bandwidth cost is the transaction size in bytes
+    const bandwidthCost = transactionSize;
 
     // Get the account's bandwidth points
     const accountInfo = await tronWeb.trx.getAccount(fromAddress);
@@ -86,7 +91,8 @@ estimateTrxTransferFee(fromAddress, toAddress, amount);
 
    - Define an asynchronous function `estimateTrxTransferFee` that takes the sender's address, recipient's address, and the amount to send as arguments.
    - Use `tronWeb.transactionBuilder.sendTrx(toAddress, amount, fromAddress)` to create a transaction object.
-   - Calculate the transaction size in bytes and the bandwidth cost (1 bandwidth point per byte).
+   - Convert the transaction to a hex string and calculate the transaction size in bytes using `tronWeb.utils.bytes.byteArray2hexStr`.
+   - Calculate the bandwidth cost (1 bandwidth point per byte).
    - Retrieve the account's bandwidth points using `tronWeb.trx.getAccount(fromAddress)`.
    - Calculate the required TRX fee if the account does not have enough free bandwidth points.
    - Log the transaction size, bandwidth cost, free bandwidth, and the required TRX fee to the console.
