@@ -106,20 +106,17 @@ priceAboveSMA = close > ma
 // Condition 2: RSI crosses below 50
 rsiCrossBelow50 = ta.crossunder(rsiValue, 50)
 rsiCrossBelow40 = ta.crossunder(rsiValue, 40)
-
-// Alert Condition
-alertcondition( (priceBelowSMA and (rsiCrossBelow50 or rsiCrossBelow40)), "Price Below SMA & RSI Cross Under 50", message="Price is below 50 SMA and RSI crossed below 50!")
-
 // Condition 2: RSI crosses below 50
 rsiCrossOver50 = ta.crossover(rsiValue, 50)
 rsiCrossOver60 = ta.crossover(rsiValue, 60)
 
 // Alert Condition
-alertcondition( (priceAboveSMA and (rsiCrossOver60 or rsiCrossOver50)), "Price above SMA & RSI Cross Over 50", message="Price is Above 50 SMA and RSI crossed above 50!")
+alertcondition( ((priceBelowSMA and (rsiCrossBelow50 or rsiCrossBelow40)) or (priceAboveSMA and (rsiCrossOver60 or rsiCrossOver50)) ), "RSI Based", message="RSI BASED")
 
 
 //alertcondition(cross_below, message="8-SMA Cross Below")
 
 maq = ta.sma(close, 8)
 plot(maq, color=#ffffff,linewidth =2)
+
 ```
