@@ -10,6 +10,8 @@ indicator("Simple Moving AVG", overlay = true)
 length = input.int(50, minval=1, title="Length", group = "general settings for all indicators.")
 
 ma = ta.sma(close, length)
+eightSMA = ta.sma(close, 8)
+
 
 d = ta.change(ma)
 g = ta.change(d)
@@ -68,7 +70,7 @@ cross_below_from_last_two = twoRedCandles and (((ma < high and ma > close) or (m
 //alertcondition(twoRedCandles and cross_below_from_last_two, "SIGNAL SELL" , message="SIGNAL SELL")
 
 // signal_sell = (( isGreen(close[2],open[2]) and isGreen(close[1],open[1]) and isRed(close[0],open[0]) and (close < low[1] or close < low[2] ) and open[1] > ma[1] ) or ( isGreen(close[3],open[3]) and isGreen(close[2],open[2]) and isRed(close[1],open[1]) and isRed(close[0],open[0]) and ( close < low[2] or close < low[3] ) and open[2] > ma[2] ))
-signal_sell = ( ( isGreen(close[3], open[3]) and ma[3] < close[3]  ) or ( isGreen(close[2], open[2]) and ma[2] < close[2]  ) or ( isGreen(close[1], open[1]) and ma[1] < close[1]  ) ) and ( close[0] < open[0] ) and ( low < low[1] and low < low[2] and low < low[3] )
+signal_sell = ( ( isGreen(close[3], open[3]) and eightSMA[3] < close[3]  ) or ( isGreen(close[2], open[2]) and eightSMA[2] < close[2]  ) or ( isGreen(close[1], open[1]) and eightSMA[1] < close[1]  ) ) and ( close[0] < open[0] ) and ( low < low[1] and low < low[2] and low < low[3] )
 
 alertcondition(signal_sell, "SIGNAL SELL" , message="SIGNAL SELL")
 
@@ -77,9 +79,11 @@ cross_above_from_last_two = twoGreenCandles and (( (ma > low and ma < close) or 
 
 
 //signal_buy = (( isRed(close[2],open[2]) and isRed(close[1],open[1]) and isGreen(close[0],open[0]) and (close[0] > high[1] or close[0] > high[2] ) and close[1] < ma[1]  ) or ( isRed(close[3],open[3]) and isRed(close[2],open[2]) and isGreen(close[1],open[1]) and isGreen(close[0],open[0]) and ( close[0] > high[2] or close[0] > high[3] ) and close[2] < ma[2] ))
-signal_buy = ( ( isRed(close[3], open[3]) and ma[3] > close[3]  ) or ( isRed(close[2], open[2]) and ma[2] > close[2]  ) or ( isRed(close[1], open[1]) and ma[1] > close[1]  ) ) and ( close[0] > open[0] ) and ( high > high[1] and high > high[2] and high > high[3] )
+signal_buy = ( ( isRed(close[3], open[3]) and eightSMA[3] > close[3]  ) or ( isRed(close[2], open[2]) and eightSMA[2] > close[2]  ) or ( isRed(close[1], open[1]) and eightSMA[1] > close[1]  ) ) and ( close[0] > open[0] ) and ( high > high[1] and high > high[2] and high > high[3] )
 alertcondition( signal_buy, "SIGNAL BUY" , message="SIGNAL BUY")
 
+
+alertcondition( (signal_buy or signal_sell ), "SIGNAL" , message="SIGNAL")
 
 
 
@@ -116,7 +120,11 @@ alertcondition( ((priceBelowSMA and (rsiCrossBelow50 or rsiCrossBelow40)) or (pr
 
 //alertcondition(cross_below, message="8-SMA Cross Below")
 
-maq = ta.sma(close, 8)
-plot(maq, color=#ffffff,linewidth =2)
 
+eightCrossUnder = ta.crossunder(close, eightSMA)
+eightCrossOver = ta.crossover(close, eightSMA)
+alertcondition( eightCrossOver or eightCrossUnder, "8SMA CROSS", message="8 SMA CROSS")
+
+
+plot(eightSMA, color=#ffffff,linewidth =2)
 ```
