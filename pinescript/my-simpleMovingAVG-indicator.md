@@ -12,6 +12,9 @@ length = input.int(50, minval=1, title="Length", group = "general settings for a
 ma = ta.sma(close, length)
 eightSMA = ta.sma(close, 8)
 
+priceBelowSMA = close < ma
+priceAboveSMA = close > ma
+
 
 d = ta.change(ma)
 g = ta.change(d)
@@ -83,15 +86,11 @@ signal_buy = ( ( isRed(close[3], open[3]) and eightSMA[3] > close[3]  ) or ( isR
 alertcondition( signal_buy, "SIGNAL BUY" , message="SIGNAL BUY")
 
 
-alertcondition( (signal_buy or signal_sell ), "SIGNAL" , message="SIGNAL")
-
-
+alertcondition( ((signal_buy and priceAboveSMA)  or  (signal_sell and priceBelowSMA )) ,"SIGNAL" , message="SIGNAL")
 
 
 alertcondition( isEngulfingBullish(), "Engulfing Bullish" , message="Engulfing Bullish")
-
 alertcondition( isEngulfingBearish(), "Engulfing Bearish" , message="Engulfing Bearish")
-
 
 alertcondition(ma < ma[1] and ma[1] < ma[2],"Downward Slope" , message="Downward Slope")
 alertcondition(ma > ma[1] and ma[1] > ma[2] , "Upward Slope", message="Upward Slope")
@@ -104,8 +103,7 @@ rsiLength = 14
 rsiValue = ta.rsi(close, rsiLength)
 
 // Condition 1: Price is below 50 SMA
-priceBelowSMA = close < ma
-priceAboveSMA = close > ma
+
 
 // Condition 2: RSI crosses below 50
 rsiCrossBelow50 = ta.crossunder(rsiValue, 50)
