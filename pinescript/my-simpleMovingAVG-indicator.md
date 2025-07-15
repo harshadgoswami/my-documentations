@@ -1,6 +1,3 @@
-### Simple Moving AVG
-
-```pinescript
 // This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
 // © efficientChile41178
 
@@ -38,8 +35,8 @@ f = 2.55*delta/2+50*2.55
 plot(ma,color=color.rgb(math.min(510-2*f,255),math.min(2*f,255),0), linewidth = 2)
 
 
-// setting up alert on cross above or below
-cross_above = ma > low and ma < close
+// setting up alert on cross above or below 
+cross_above = ma > low and ma < close 
 cross_below = ma < high and ma > close
 alertcondition((cross_above or cross_below), "Moving Average Cross" , message="Moving Average Cross")
 
@@ -62,10 +59,10 @@ threeRedCandles = isRed(close[0], open[0]) and isRed(close[1], open[1]) and isRe
 twoRedCandles = isRed(close[0], open[0]) and isRed(close[1], open[1])
 alertcondition(threeRedCandles, "3 Red Candle" ,message="3 Red Candles")
 
-oneGreenCandles = isGreen(close[0], open[0])
+oneGreenCandles = isGreen(close[0], open[0]) 
 alertcondition(oneGreenCandles, "1 Green Candle" , message="1 Green Candles")
 
-oneRedCandles = isRed(close[0], open[0])
+oneRedCandles = isRed(close[0], open[0]) 
 alertcondition(oneRedCandles, "1 Red Candle" ,message="1 Red Candles")
 
 
@@ -122,7 +119,24 @@ eightCrossUnder = ta.crossunder(close, eightSMA)
 eightCrossOver = ta.crossover(close, eightSMA)
 alertcondition( eightCrossOver or eightCrossUnder, "8SMA CROSS", message="8 SMA CROSS")
 
+// Inputs
+sma20 = ta.sma(close, 20)
+sma50 = ta.sma(close, 50)
 
-plot(eightSMA, color=#ffffff,linewidth =2)
+// Conditions
+sma20Falling = sma20 < sma20[1]
+sma50Falling = sma50 < sma50[1]
+sma20Rising = sma20 > sma20[1]
+sma50Rising = sma50 > sma50[1]
 
-```
+crossUp20 = ta.crossover(close, sma20)
+crossDown20 = ta.crossunder(close, sma20)
+
+// Combined alert condition
+triggerCondition = (sma20Falling and sma50Falling and crossUp20) or (sma20Rising and sma50Rising and crossDown20)
+
+// Set alert
+alertcondition(triggerCondition, title="SMA Cross Alert", message="20 SMA Cross with 20/50 SMA Trend Alignment")
+
+
+//plot(eightSMA, color=#ffffff,linewidth =2)
